@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Tanat Malik](https://up.htmlacademy.ru/javascript/20/user/177565).
-* Наставник: `Неизвестно`.
+* Наставник: [Саяжан Онласын](https://htmlacademy.ru/profile/crepiks).
 
 ---
 
