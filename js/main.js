@@ -50,9 +50,8 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
-// Находим map, и удаляем у него класс
+// Находим map
 var map = document.querySelector('.map');
-map.classList.remove('map--faded');
 // Находим селектор map__pins
 var mapPins = document.querySelector('.map__pins');
 
@@ -133,8 +132,6 @@ function renderPins(pinsData) {
   mapPins.appendChild(fragment);
 }
 
-renderPins(generateMocks(PIN_AMOUNT));
-
 /*
   ДЗ - Больше деталей (часть 2)
 */
@@ -205,4 +202,115 @@ function renderCards(cardData) {
   map.appendChild(fragment);
 }
 
-renderCards(generateMocks(PIN_AMOUNT));
+/*
+  ДЗ - доверяй но проверяй (часть 1)
+*/
+
+// Кнопка активации страницы
+var mapPinMain = document.querySelector('.map__pin--main');
+
+// Форма заполнения информации об объявлении
+var adForm = document.querySelector('.ad-form');
+
+// Поля формы адреса
+var adFormAddressInput = adForm.querySelector('#address');
+
+// Все поля формы fieldset
+var adFormFieldsets = adForm.querySelectorAll('.ad-form__element');
+// Функция для перебора и вставки атрибута disabled лэлементам adFormFieldsets
+adFormFieldsets.forEach(function (elem) {
+  elem.disabled = true;
+});
+
+// Скрипты которые запускаются при активации страницы
+var scriptActivation = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+
+  renderPins(generateMocks(PIN_AMOUNT));
+  renderCards(generateMocks(PIN_AMOUNT));
+
+  adFormFieldsets.forEach(function (elem) {
+    elem.disabled = false;
+  });
+
+  adFormAddressInput.value = getAddressCoordinate();
+
+  mapPinMain.removeEventListener('mousedown', pageActivation);
+  document.removeEventListener('keydown', enterFocus);
+};
+
+// Функция для активации страницы по нажатию на левую кнопку мыши
+var pageActivation = function (evt) {
+  if (evt.button === 0) {
+    scriptActivation();
+  }
+};
+
+// Функция по активации страницы по нажатию на enter
+var enterFocus = function (evt) {
+  if (evt.keyCode === 13) {
+    scriptActivation();
+  }
+};
+
+// Слушатели событии активации страницы
+mapPinMain.addEventListener('mousedown', pageActivation);
+document.addEventListener('keydown', enterFocus);
+
+// Размер острого конца метки
+var PIN_TIP_HEIGHT = 22;
+// Функция для задания координат
+var getAddressCoordinate = function () {
+  var locationX = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
+  var locationY = Math.floor(mapPinMain.offsetTop + mapPinMain.offsetHeight + PIN_TIP_HEIGHT);
+  var location = locationX + ', ' + locationY;
+
+  return location;
+};
+
+var adFormRoomsNumber = adForm.querySelector('#room_number');
+var adFormGuests = adForm.querySelector('#capacity');
+
+var roomsAmount = {
+  '1': {
+    guestsAmout: ['1'],
+    customMessage: 'Для 1 комнаты возможен вариант: 1 гость',
+  },
+  '2': {
+    guestsAmout: ['1', '2'],
+    customMessage: 'Для 2 комнат возможны варианты: 1 гость, 2 гостя',
+  },
+  '3': {
+    guestsAmout: ['1', '2', '3'],
+    customMessage: 'Для 3 комнат возможны варианты: 1 гость, 2 гостя, 3 гостя',
+  },
+  '100': {
+    guestsAmout: ['0'],
+    customMessage: 'Для 100 комнат возможен варианты: не для гостей',
+  },
+};
+
+// Функция для проверки валидации значении комнат и гостей
+var roomsAndGuestsValidation = function () {
+  var roomsValue = adFormRoomsNumber.value;
+  var guestsValue = adFormGuests.value;
+  var currentRooms = roomsAmount[roomsValue];
+  var customMessage = currentRooms['customMessage'];
+
+  for (var i = 0; i < currentRooms['guestsAmout'].length; i++) {
+    if (guestsValue === currentRooms['guestsAmout'][i]) {
+      customMessage = '';
+    }
+  }
+
+  adFormGuests.setCustomValidity(customMessage);
+};
+
+adFormRoomsNumber.addEventListener('input', function () {
+  roomsAndGuestsValidation();
+});
+
+adFormGuests.addEventListener('input', function () {
+  roomsAndGuestsValidation();
+});
