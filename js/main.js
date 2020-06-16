@@ -50,6 +50,12 @@ var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
+// Код клавиши Enter
+var ENTER_KEYCODE = 13;
+
+// Размер острого конца метки
+var PIN_TIP_HEIGHT = 22;
+
 // Находим map
 var map = document.querySelector('.map');
 // Находим селектор map__pins
@@ -166,15 +172,21 @@ function createCards(card) {
   cardElement.querySelector('.popup__title').textContent = card.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
   cardElement.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
-  if (card.offer.type === 'palace') {
-    cardElement.querySelector('.popup__type').textContent = 'Дворец';
-  } else if (card.offer.type === 'flat') {
-    cardElement.querySelector('.popup__type').textContent = 'Квартира';
-  } else if (card.offer.type === 'house') {
-    cardElement.querySelector('.popup__type').textContent = 'Дом';
-  } else {
-    cardElement.querySelector('.popup__type').textContent = 'Бунгало';
+
+  switch (card.offer.type) {
+    case 'palace':
+      cardElement.querySelector('.popup__type').textContent = 'Дворец';
+      break;
+    case 'flat':
+      cardElement.querySelector('.popup__type').textContent = 'Квартира';
+      break;
+    case 'house':
+      cardElement.querySelector('.popup__type').textContent = 'Дом';
+      break;
+    default:
+      cardElement.querySelector('.popup__type').textContent = 'Бунгало';
   }
+
   cardElement.querySelector('.popup__text--capacity').textContent = getRoomsСase(card.offer.rooms) + ' для ' + getGuestСase(card.offer.guests);
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
   cardElement.querySelector('.popup__features').textContent = card.offer.features.join(', ');
@@ -217,13 +229,13 @@ var adFormAddressInput = adForm.querySelector('#address');
 
 // Все поля формы fieldset
 var adFormFieldsets = adForm.querySelectorAll('.ad-form__element');
-// Функция для перебора и вставки атрибута disabled лэлементам adFormFieldsets
+// Функция для перебора и вставки атрибута disabled элементам adFormFieldsets
 adFormFieldsets.forEach(function (elem) {
   elem.disabled = true;
 });
 
 // Скрипты которые запускаются при активации страницы
-var scriptActivation = function () {
+var activateScript = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
 
@@ -236,30 +248,28 @@ var scriptActivation = function () {
 
   adFormAddressInput.value = getAddressCoordinate();
 
-  mapPinMain.removeEventListener('mousedown', pageActivation);
+  mapPinMain.removeEventListener('mousedown', activatePage);
   document.removeEventListener('keydown', enterFocus);
 };
 
 // Функция для активации страницы по нажатию на левую кнопку мыши
-var pageActivation = function (evt) {
+var activatePage = function (evt) {
   if (evt.button === 0) {
-    scriptActivation();
+    activateScript();
   }
 };
 
-// Функция по активации страницы по нажатию на enter
+// Функция для активации страницы по нажатию на enter
 var enterFocus = function (evt) {
-  if (evt.keyCode === 13) {
-    scriptActivation();
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activateScript();
   }
 };
 
 // Слушатели событии активации страницы
-mapPinMain.addEventListener('mousedown', pageActivation);
+mapPinMain.addEventListener('mousedown', activatePage);
 document.addEventListener('keydown', enterFocus);
 
-// Размер острого конца метки
-var PIN_TIP_HEIGHT = 22;
 // Функция для задания координат
 var getAddressCoordinate = function () {
   var locationX = Math.floor(mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2);
@@ -292,7 +302,7 @@ var roomsAmount = {
 };
 
 // Функция для проверки валидации значении комнат и гостей
-var roomsAndGuestsValidation = function () {
+var checkRoomsAndGuests = function () {
   var roomsValue = adFormRoomsNumber.value;
   var guestsValue = adFormGuests.value;
   var currentRooms = roomsAmount[roomsValue];
@@ -308,9 +318,9 @@ var roomsAndGuestsValidation = function () {
 };
 
 adFormRoomsNumber.addEventListener('input', function () {
-  roomsAndGuestsValidation();
+  checkRoomsAndGuests();
 });
 
 adFormGuests.addEventListener('input', function () {
-  roomsAndGuestsValidation();
+  checkRoomsAndGuests();
 });
