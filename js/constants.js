@@ -25,13 +25,22 @@
       'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
     ],
 
-    // Код клавиши Enter
-    ENTER_KEYCODE: 13,
-
+    // Карта на странице
+    MAP: document.querySelector('.map'),
+    // Метка на странице
+    MAP_PIN_MAIN: document.querySelector('.map__pin--main'),
     // Высота острого конца метки
     PIN_TIP_HEIGHT: 22,
 
-    MAP: document.querySelector('.map'),
+    // Форма объявления
+    FORM: document.querySelector('.ad-form'),
+    // Все поля формы fieldset
+    FORM_FIELDSETS: document.querySelectorAll('.ad-form__element'),
+    // Поле адреса
+    FORM_ADDRESS_INPUT: document.querySelector('#address'),
+
+    // Код клавиши Enter
+    ENTER_KEYCODE: 13,
   };
 
 })();
