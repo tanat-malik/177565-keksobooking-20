@@ -14,7 +14,11 @@
       elem.disabled = false;
     });
 
-    window.constants.FORM_ADDRESS_INPUT.value = getAddressCoordinate();
+    // Задаем координаты полю адреса
+    window.setAddressCoords(
+        Math.floor(window.constants.MAP_PIN_MAIN.offsetLeft + window.constants.MAP_PIN_MAIN.offsetWidth / 2),
+        Math.floor(window.constants.MAP_PIN_MAIN.offsetTop + window.constants.MAP_PIN_MAIN.offsetHeight + window.constants.PIN_TIP_HEIGHT)
+    );
 
     window.constants.MAP_PIN_MAIN.removeEventListener('mousedown', activatePage);
     document.removeEventListener('keydown', enterFocus);
@@ -39,12 +43,8 @@
   document.addEventListener('keydown', enterFocus);
 
   // Функция для задания координат в поле адреса
-  var getAddressCoordinate = function () {
-    var locationX = Math.floor(window.constants.MAP_PIN_MAIN.offsetLeft + window.constants.MAP_PIN_MAIN.offsetWidth / 2);
-    var locationY = Math.floor(window.constants.MAP_PIN_MAIN.offsetTop + window.constants.MAP_PIN_MAIN.offsetHeight + window.constants.PIN_TIP_HEIGHT);
-    var location = locationX + ', ' + locationY;
-
-    return location;
+  window.setAddressCoords = function (locationX, locationY) {
+    window.constants.FORM_ADDRESS_INPUT.value = 'x: ' + locationX + ' ' + 'y: ' + locationY;
   };
 
 })();

@@ -41,6 +41,10 @@
 
     // Код клавиши Enter
     ENTER_KEYCODE: 13,
+
+    // SET_ADDRESS_COORDS: function (locationX, locationY) {
+    //   window.constants.FORM_ADDRESS_INPUT.value = 'x: ' + locationX + ' ' + 'y: ' + locationY;
+    // }
   };
 
 })();
