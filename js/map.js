@@ -10,7 +10,7 @@
     .querySelector('#pin')
     .content.querySelector('.map__pin');
 
-  // На основе данных, полученных из функции generateMocks в файле mocks.js, клону шаблона pinElement задаем метки координат и изображений
+  // На основе данных, полученных из функции getPinsData, клону шаблона pinElement задаем метки координат и изображений
   function getPinTemplate(data) {
     var pinElement = templatePin.cloneNode(true);
     var pinIcon = pinElement.querySelector('img');
@@ -21,37 +21,30 @@
     return pinElement;
   }
 
-  window.getPinsData = function (pins) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < pins.length; i++) {
-      fragment.appendChild(getPinTemplate(pins[i]));
-    }
-    mapPins.appendChild(fragment);
+  window.getPinsData = function () {
+
+    var successHandler = function (pins) {
+      var fragment = document.createDocumentFragment();
+      for (var i = 0; i < pins.length; i++) {
+        fragment.appendChild(getPinTemplate(pins[i]));
+      }
+      mapPins.appendChild(fragment);
+    };
+
+    var errorHandler = function (errorMessage) {
+      var node = document.createElement('div');
+      node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+      node.style.position = 'absolute';
+      node.style.left = 0;
+      node.style.right = 0;
+      node.style.fontSize = '30px';
+      node.textContent = errorMessage;
+      node.style.color = 'white';
+      document.body.insertAdjacentElement('afterbegin', node);
+    };
+
+    window.load(successHandler, errorHandler);
+
   };
-
-  // window.getPinsData = function () {
-
-  //   var successHandler = function (pins) {
-  //     var fragment = document.createDocumentFragment();
-  //     for (var i = 0; i < pins.length; i++) {
-  //       fragment.appendChild(getPinTemplate(pins[i]));
-  //     }
-  //     mapPins.appendChild(fragment);
-  //   };
-
-  //   var errorHandler = function (errorMessage) {
-  //     var node = document.createElement('div');
-  //     node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-  //     node.style.position = 'absolute';
-  //     node.style.left = 0;
-  //     node.style.right = 0;
-  //     node.style.fontSize = '30px';
-  //     node.textContent = errorMessage;
-  //     document.body.insertAdjacentElement('afterbegin', node);
-  //   };
-
-  //   window.load(successHandler, errorHandler);
-
-  // };
 
 })();

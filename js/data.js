@@ -1,17 +1,17 @@
-// 'use strict';
+'use strict';
 
-// (function () {
+(function () {
 
-//   window.onload = function (onSuccess) {
-//     var xhr = new XMLHttpRequest();
-//     xhr.responseType = 'json';
+  window.onload = function (onSuccess) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
 
-//     xhr.addEventListener('onload', function () {
-//       onSuccess(xhr.response);
-//     });
+    xhr.addEventListener('onload', function () {
+      onSuccess(xhr.response);
+    });
 
-//     xhr.open('GET', window.constants.URL);
-//     xhr.send();
-//   };
+    xhr.open('GET', window.constants.URL);
+    xhr.send();
+  };
 
-// })();
+})();

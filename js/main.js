@@ -7,7 +7,7 @@
     window.constants.MAP.classList.remove('map--faded');
     window.constants.FORM.classList.remove('ad-form--disabled');
 
-    window.getPinsData(window.generateMocks(window.constants.PIN_AMOUNT));
+    window.getPinsData();
     window.renderCards(window.generateMocks(window.constants.PIN_AMOUNT));
 
     window.constants.FORM_FIELDSETS.forEach(function (elem) {
