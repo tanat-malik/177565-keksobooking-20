@@ -7,7 +7,7 @@
     window.constants.MAP.classList.remove('map--faded');
     window.constants.FORM.classList.remove('ad-form--disabled');
 
-    window.renderPins(window.generateMocks(window.constants.PIN_AMOUNT));
+    window.getPinsData(window.generateMocks(window.constants.PIN_AMOUNT));
     window.renderCards(window.generateMocks(window.constants.PIN_AMOUNT));
 
     window.constants.FORM_FIELDSETS.forEach(function (elem) {
@@ -44,7 +44,7 @@
 
   // Функция для задания координат в поле адреса
   window.setAddressCoords = function (locationX, locationY) {
-    window.constants.FORM_ADDRESS_INPUT.value = 'x: ' + locationX + ' ' + 'y: ' + locationY;
+    window.constants.FORM_ADDRESS_INPUT.value = 'x: ' + Math.floor(locationX) + ' ' + 'y: ' + locationY;
   };
 
 })();
