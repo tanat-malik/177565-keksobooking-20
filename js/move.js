@@ -4,15 +4,13 @@
 
   // Метка на карте
   var mapPinMain = window.constants.MAP_PIN_MAIN;
-  // Высота острого конца метки
-  var pinTipHeight = window.constants.PIN_TIP_HEIGHT;
 
   // Ограничение перемещения метки по оси Y вверх
   var mapPinMainTopY = window.constants.MAP_PIN_MAIN_TOP_Y;
   // Ограничение перемещения метки по оси Y вниз
   var mapPinMainBottomY = window.constants.MAP_PIN_MAIN_BOTTOM_Y;
 
-  // Минимальное перемещение метки по оси X в левую сторону. Значение взято из половины ширины метки mapPinMain
+  // Минимальное перемещение метки по оси X в левую сторону. Значение взято из половины ширины метки mapPinMain в отрицательном числе
   var mapPinMainLeftX = -32.5;
   // Максимальное перемещение метки по оси X в правую сторону
   var mapPinMainRightX = (mapPinMain.parentNode.offsetWidth + mapPinMainLeftX);
@@ -25,7 +23,7 @@
       y: evt.pageY - parseInt(mapPinMain.style.top, 10),
     };
 
-    var onMouseMove = function (moveEvt) {
+    function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
 
       var mouseMoveCoords = {
@@ -49,23 +47,18 @@
       mapPinMain.style.top = mapMoveLimits.y;
 
       // Задаем координаты полю адреса при каждом смещении мыши
-      window.setAddressCoords(
-          mapPinMain.style.left = mapPinMain.offsetLeft + mapPinMain.offsetWidth / 2,
-          mapPinMain.style.top = mapPinMain.offsetTop + mapPinMain.offsetHeight + pinTipHeight
-      );
+      window.main.setAddressCoords();
+    }
 
-    };
-
-    var onMouseUp = function (upEvt) {
+    function onMouseUp(upEvt) {
       upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-    };
+    }
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-
   });
 
 })();

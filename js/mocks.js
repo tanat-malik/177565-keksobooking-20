@@ -2,7 +2,6 @@
 
 (function () {
 
-
   // Функция для выбора случайного значения
   function getRandomValue(min, max) {
     return Math.floor(Math.random() * (max + 1 - min) + min);
@@ -26,7 +25,7 @@
   }
 
   // Функция для генерирования данных(моки)
-  window.generateMocks = function (counter) {
+  function generateMocks(counter) {
     var mocksList = [];
     for (var i = 0; i < counter; i++) {
       var locationX = getRandomValue(0, 1200);
@@ -56,6 +55,10 @@
       mocksList.push(mocksPins);
     }
     return mocksList;
+  }
+
+  window.mocks = {
+    generateMocks: generateMocks,
   };
 
 })();

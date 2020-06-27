@@ -25,18 +25,21 @@
       'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
     ],
 
-    // Данные с сервера
-    URL: 'https://javascript.pages.academy/keksobooking/data',
+    SEND_URL: 'https://javascript.pages.academy/keksobooking',
+    DATA_URL: 'https://javascript.pages.academy/keksobooking/data',
 
     // Карта на странице
     MAP: document.querySelector('.map'),
     // Метка на странице
     MAP_PIN_MAIN: document.querySelector('.map__pin--main'),
-    // Огранчения для метки
+    // Ограничения для метки
     MAP_PIN_MAIN_TOP_Y: 130,
     MAP_PIN_MAIN_BOTTOM_Y: 630,
     // Высота острого конца метки
     PIN_TIP_HEIGHT: 22,
+    // Дефолтные координаты метки
+    MAIN_PIN_DEFAULT_TOP: '375px',
+    MAIN_PIN_DEFAULT_LEFT: '570px',
 
     // Форма объявления
     FORM: document.querySelector('.ad-form'),
@@ -47,7 +50,8 @@
 
     // Код клавиши Enter
     ENTER_KEYCODE: 13,
-
+    // Код клавиши Escape
+    ESCAPE_KEYCODE: 27,
   };
 
 })();
