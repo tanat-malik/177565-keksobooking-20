@@ -31,24 +31,6 @@
   // Функция для создания попапа
   function createCards(card) {
     var cardElement = cardTemplate.cloneNode(true);
-    // var popupCloseButton = cardElement.querySelector('.popup__close');
-
-    // // Функции для закрытия карты объявления
-    // var closeCardClickHandler = function (evt) {
-    //   evt.preventDefault();
-    //   cardElement.remove();
-
-    //   document.removeEventListener('keydown', closeCardEscPressHandler);
-    // };
-
-    // var closeCardEscPressHandler = function (evt) {
-    //   if (evt.keyCode === window.constants.ESCAPE_KEYCODE) {
-    //     evt.preventDefault();
-    //     cardElement.remove();
-
-    //     document.removeEventListener('keydown', closeCardClickHandler);
-    //   }
-    // };
 
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
@@ -71,9 +53,6 @@
       popupPhotos.appendChild(photoElem);
     }
     photo.remove();
-
-    // popupCloseButton.addEventListener('click', closeCardClickHandler);
-    // document.addEventListener('keydown', closeCardEscPressHandler);
 
     return cardElement;
   }
