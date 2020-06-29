@@ -6,6 +6,9 @@
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var main = document.querySelector('main');
 
+  var ESCAPE_KEYCODE = window.constants.ESCAPE_KEYCODE;
+  var MOUSE_LEFT_BUTTON = window.constants.MOUSE_LEFT_BUTTON;
+
   function getSuccessTemplate() {
     var messageTemplate = successTemplate.cloneNode(true);
     var fragment = document.createDocumentFragment();
@@ -23,9 +26,9 @@
   function deleteSuccessTemplate(evt) {
     var success = document.querySelector('.success');
 
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === ESCAPE_KEYCODE) {
       success.parentNode.removeChild(success);
-    } else if (evt.button === 0) {
+    } else if (evt.button === MOUSE_LEFT_BUTTON) {
       success.parentNode.removeChild(success);
     }
 
@@ -51,9 +54,9 @@
     var error = document.querySelector('.error');
     var errorButton = error.querySelector('.error__button');
 
-    if (evt.keyCode === 27) {
+    if (evt.keyCode === ESCAPE_KEYCODE) {
       error.parentNode.removeChild(error);
-    } else if (evt.button === 0) {
+    } else if (evt.button === MOUSE_LEFT_BUTTON) {
       error.parentNode.removeChild(error);
     }
 

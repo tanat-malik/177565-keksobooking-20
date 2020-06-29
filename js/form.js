@@ -86,7 +86,7 @@
     }
   }
 
-  //
+  // Время заезда и выезда
   function onTimeChange(evt) {
     var selectedIndex = evt.target.selectedIndex;
 

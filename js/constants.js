@@ -4,7 +4,7 @@
 
   window.constants = {
     // Переменные для генерации данных
-    PIN_AMOUNT: 8,
+    PIN_AMOUNT: 5,
     TYPES: ['palace', 'flat', 'house', 'bungalo'],
     PRICES: [10000, 20000, 30000, 40000, 50000],
     ROOMS: [1, 2, 3, 100],
@@ -52,6 +52,8 @@
     ENTER_KEYCODE: 13,
     // Код клавиши Escape
     ESCAPE_KEYCODE: 27,
+    // Левая кнопка мыши
+    MOUSE_LEFT_BUTTON: 0,
   };
 
 })();

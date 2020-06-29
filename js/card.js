@@ -9,7 +9,6 @@
     'bungalo': 'Бунгало',
   };
 
-  // Находим шаблон #card
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   // Функция для склонения по падежам слова комната
@@ -28,9 +27,10 @@
     return (value === 1) ? value + ' гостя' : value + ' гостей';
   }
 
-  // Функция для создания попапа
+  // Функция для создания карточки объявления
   function createCards(card) {
     var cardElement = cardTemplate.cloneNode(true);
+    var popupClose = cardElement.querySelector('.popup__close');
 
     cardElement.querySelector('.popup__title').textContent = card.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
@@ -54,19 +54,49 @@
     }
     photo.remove();
 
+    popupClose.addEventListener('click', closeCard);
+    document.addEventListener('keydown', closeCardEscPress);
+
     return cardElement;
   }
 
   // Функция для рендеринга попапа на карте
   function renderCards(cardData) {
     var fragment = document.createDocumentFragment();
-    fragment.appendChild(createCards(cardData[0]));
+    fragment.appendChild(createCards(cardData));
     window.constants.MAP.appendChild(fragment);
+  }
+
+  // Функция обработки событий на карточке объявления
+  function closeCard() {
+    var cardElement = document.querySelector('.map__card');
+    var popupClose = cardElement.querySelector('.popup__close');
+    cardElement.remove();
+
+    popupClose.removeEventListener('click', closeCard);
+    document.removeEventListener('keydown', closeCardEscPress);
+  }
+
+  // Функция обработки событий на карточке объявления
+  function closeCardEscPress(evt) {
+    if (evt.keyCode === window.constants.ESCAPE_KEYCODE) {
+      closeCard();
+    }
+  }
+
+  // Функция для удаления объявлений
+  function removeCard() {
+    var cardElement = document.querySelector('.map__card');
+
+    if (cardElement) {
+      cardElement.remove();
+    }
   }
 
   window.card = {
     createCards: createCards,
     renderCards: renderCards,
+    removeCard: removeCard,
   };
 
 })();

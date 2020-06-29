@@ -2,19 +2,33 @@
 
 (function () {
 
+  // Пустой массив для объявлений
+  window.ads = [];
+
+  var mapFilters = document.querySelector('.map__filters');
+
+  function disableFilters() {
+    Array.from(mapFilters.children).forEach(function (filterSelect) {
+      filterSelect.disabled = true;
+    });
+  }
+
+  function enableFilters() {
+    Array.from(mapFilters.children).forEach(function (filterSelect) {
+      filterSelect.disabled = false;
+    });
+  }
+
+  disableFilters();
+
   // Скрипты которые запускаются при активации страницы
   function activateScript() {
     window.constants.MAP.classList.remove('map--faded');
     window.constants.FORM.classList.remove('ad-form--disabled');
-
-    window.map.getPinsData();
-    window.card.renderCards(window.mocks.generateMocks(window.constants.PIN_AMOUNT));
-
+    window.data.getData(window.map.onSuccessHandler, window.map.onErrorHandler);
     window.constants.FORM_FIELDSETS.forEach(function (elem) {
       elem.disabled = false;
     });
-
-    // Задаем координаты полю адреса
     setAddressCoords();
 
     window.constants.MAP_PIN_MAIN.removeEventListener('mousedown', activatePage);
@@ -23,7 +37,7 @@
 
   // Функция для активации страницы по нажатию на левую кнопку мыши
   function activatePage(evt) {
-    if (evt.button === 0) {
+    if (evt.button === window.constants.MOUSE_LEFT_BUTTON) {
       activateScript();
     }
   }
@@ -48,6 +62,8 @@
 
     map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
+    mapFilters.reset();
+    disableFilters();
 
     if (map.querySelector('.map__card')) {
       map.querySelector('.map__card').remove();
@@ -85,6 +101,7 @@
   }
 
   window.main = {
+    enableFilters: enableFilters,
     deactivatePage: deactivatePage,
     setMapPinMainCoords: setMapPinMainCoords,
     setAddressCoords: setAddressCoords,
