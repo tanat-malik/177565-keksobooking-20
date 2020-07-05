@@ -25,46 +25,33 @@
   var adFormTitle = adForm.querySelector('#title');
   var adFormResetButton = adForm.querySelector('.ad-form__reset');
 
-
   // Функция для перебора и вставки атрибута disabled элементам FORM_FIELDSETS
   adFormFieldsets.forEach(function (elem) {
     elem.disabled = true;
   });
 
-  var roomsAmount = {
-    '1': {
-      guestsAmout: ['1'],
-      customMessage: 'Для 1 комнаты возможен вариант: 1 гость',
-    },
-    '2': {
-      guestsAmout: ['1', '2'],
-      customMessage: 'Для 2 комнат возможны варианты: 1 гость, 2 гостя',
-    },
-    '3': {
-      guestsAmout: ['1', '2', '3'],
-      customMessage:
-        'Для 3 комнат возможны варианты: 1 гость, 2 гостя, 3 гостя',
-    },
-    '100': {
-      guestsAmout: ['0'],
-      customMessage: 'Для 100 комнат возможен варианты: не для гостей',
-    },
-  };
+  function checkRoomsInputValue() {
+    for (var i = 0; i < adFormRoomsNumber.length; i++) {
+      if (adFormRoomsNumber.options[0].value === '1') {
+        adFormGuests.options[i].disabled = true;
+      }
+      adFormGuests.options[0].disabled = false;
+    }
+  }
+  checkRoomsInputValue();
 
-  // Проверка валидации значении комнат и гостей
-  function onCheckRoomsAndGuests() {
-    var roomsValue = adFormRoomsNumber.value;
-    var guestsValue = adFormGuests.value;
-    var currentRooms = roomsAmount[roomsValue];
-    var customMessage = currentRooms['customMessage'];
+  function onCheckRoomsAndGuests(evt) {
+    var selectedIndex = evt.target.selectedIndex;
+    adFormGuests.options[selectedIndex].selected = true;
 
-    for (var i = 0; i < currentRooms['guestsAmout'].length; i++) {
-      if (guestsValue === currentRooms['guestsAmout'][i]) {
-        customMessage = '';
+    for (var i = 0; i < adFormGuests.length; i++) {
+      adFormGuests.options[i].disabled = true;
+      if (selectedIndex === adFormGuests.length - 1) {
+        adFormGuests.options[selectedIndex].disabled = false;
+      } else if (selectedIndex >= i) {
+        adFormGuests.options[i].disabled = false;
       }
     }
-
-    adFormGuests.setCustomValidity(customMessage);
   }
 
   // Изменение placeholder-а цены в соответствии типу апартаментов
@@ -73,14 +60,27 @@
     adFormPrice.min = PRICES[evt.target.value];
   }
 
+  // Функция для склонения по падежам слова символ
+  function getWordsSymbol(value) {
+    if (value === 1 || value === 21) {
+      return value + ' символ.';
+    } else if ((value >= 2 && value <= 4) || (value >= 22 && value <= 24)) {
+      return value + ' символа.';
+    } else if (value >= 5 && value <= 20) {
+      return value + ' символов.';
+    } else {
+      return value + ' символов.';
+    }
+  }
+
   // Лимит символов для заголовка
   function onTitleLimit(evt) {
     var valueLength = evt.target.value.length;
 
     if (valueLength < TITLE_LENGTH.MIN) {
-      adFormTitle.setCustomValidity('Ещё ' + TITLE_LENGTH.MIN - valueLength + ' символов');
+      adFormTitle.setCustomValidity('Минимальный лимит 30 символов!' + ' Ещё ' + getWordsSymbol(TITLE_LENGTH.MIN - valueLength));
     } else if (valueLength > TITLE_LENGTH.MAX) {
-      adFormTitle.setCustomValidity('Заголовок превышает лимит на ' + valueLength - TITLE_LENGTH.MAX + 'символов');
+      adFormTitle.setCustomValidity('Заголовок превышает лимит на ' + (valueLength - TITLE_LENGTH.MAX) + ' символов!');
     } else {
       adFormTitle.setCustomValidity('');
     }
@@ -97,15 +97,9 @@
     }
   }
 
-  // Сброс формы на исходные значения
   function onFormReset(evt) {
     evt.preventDefault();
-
-    adForm.reset();
-    window.main.setMapPinMainCoords();
-    setTimeout(function () {
-      window.main.setAddressCoords();
-    });
+    window.main.deactivatePage();
   }
 
   // Отправка данных формы
@@ -115,8 +109,7 @@
   }
 
   adForm.addEventListener('submit', submitHandler);
-  adFormRoomsNumber.addEventListener('input', onCheckRoomsAndGuests);
-  adFormGuests.addEventListener('input', onCheckRoomsAndGuests);
+  adFormRoomsNumber.addEventListener('change', onCheckRoomsAndGuests);
   adFormTitle.addEventListener('input', onTitleLimit);
   adFormType.addEventListener('change', onTypeChange);
   adFormTimeIn.addEventListener('change', onTimeChange);

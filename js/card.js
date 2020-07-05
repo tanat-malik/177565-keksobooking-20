@@ -12,10 +12,10 @@
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   // Функция для склонения по падежам слова комната
-  function getRoomsСase(value) {
+  function getWordsRoom(value) {
     if (value === 1) {
       return value + ' комната';
-    } else if (value === 5) {
+    } else if (value === 5 || value === 35) {
       return value + ' комнат';
     } else {
       return value + ' комнаты';
@@ -23,7 +23,7 @@
   }
 
   // Функция для склонения по падежам слова гость
-  function getGuestСase(value) {
+  function getWordsGuest(value) {
     return (value === 1) ? value + ' гостя' : value + ' гостей';
   }
 
@@ -37,9 +37,9 @@
     cardElement.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
     cardElement.querySelector('.popup__type').textContent = APARTMENT_TYPE[card.offer.type];
     cardElement.querySelector('.popup__text--capacity').textContent =
-      getRoomsСase(card.offer.rooms) +
+      getWordsRoom(card.offer.rooms) +
       ' для ' +
-      getGuestСase(card.offer.guests);
+      getWordsGuest(card.offer.guests);
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     cardElement.querySelector('.popup__features').textContent = card.offer.features.join(', ');
     cardElement.querySelector('.popup__description').textContent = card.offer.description;
@@ -58,13 +58,6 @@
     document.addEventListener('keydown', closeCardEscPress);
 
     return cardElement;
-  }
-
-  // Функция для рендеринга попапа на карте
-  function renderCards(cardData) {
-    var fragment = document.createDocumentFragment();
-    fragment.appendChild(createCards(cardData));
-    window.constants.MAP.appendChild(fragment);
   }
 
   // Функция обработки событий на карточке объявления
@@ -87,7 +80,6 @@
   // Функция для удаления объявлений
   function removeCard() {
     var cardElement = document.querySelector('.map__card');
-
     if (cardElement) {
       cardElement.remove();
     }
@@ -95,7 +87,6 @@
 
   window.card = {
     createCards: createCards,
-    renderCards: renderCards,
     removeCard: removeCard,
   };
 

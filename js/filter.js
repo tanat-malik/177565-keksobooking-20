@@ -48,9 +48,9 @@
     features.forEach(function (feature) {
       if (ad.offer.features.indexOf(feature.value) === -1) {
         isCorrectFeatures = false;
-        return;
       }
     });
+
     return isCorrectFeatures;
   }
 

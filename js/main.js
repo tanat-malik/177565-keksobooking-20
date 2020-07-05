@@ -5,6 +5,7 @@
   // Пустой массив для объявлений
   window.ads = [];
 
+  var formAddressInput = document.querySelector('#address');
   var mapFilters = document.querySelector('.map__filters');
 
   function disableFilters() {
@@ -97,7 +98,7 @@
   function setAddressCoords() {
     var locationX = Math.floor(window.constants.MAP_PIN_MAIN.offsetLeft + window.constants.MAP_PIN_MAIN.offsetWidth / 2);
     var locationY = Math.floor(window.constants.MAP_PIN_MAIN.offsetTop + window.constants.MAP_PIN_MAIN.offsetHeight + window.constants.PIN_TIP_HEIGHT);
-    window.constants.FORM_ADDRESS_INPUT.value = 'x: ' + locationX + ' ' + 'y: ' + locationY;
+    formAddressInput.value = locationX + ' ' + locationY;
   }
 
   window.main = {
